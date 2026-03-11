@@ -1,32 +1,24 @@
-extern crate dotenv;
-extern crate holiday_api_rust;
-#[macro_use]
-extern crate prettytable;
-
 use dotenv::dotenv;
 use holiday_api_rust::HolidayAPIClient;
-use prettytable::Table;
-use prettytable::format;
+use prettytable::{format, row, Table};
 use std::env;
 
-fn main(){
+#[tokio::main]
+async fn main() {
     dotenv().ok();
 
     let api_key = env::var("HOLIDAYAPI_APIKEY").unwrap();
-    
     let client = HolidayAPIClient::new(api_key);
 
     let year = env::args().nth(1).expect("year");
     let country = env::args().nth(2).expect("country");
 
-    match client.search_holidays(&year, &country) {
+    match client.search_holidays(&year, &country).await {
         Err(e) => eprintln!("{:?}", e),
-        Ok(holidays) =>{
-            match holidays {
-                None => println!("No holidays!"),
-                Some(h) => print_holidays(h),
-            }          
-        }
+        Ok(holidays) => match holidays {
+            None => println!("No holidays!"),
+            Some(h) => print_holidays(h),
+        },
     }
 }
 
