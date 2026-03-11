@@ -1,5 +1,5 @@
 use dotenv::dotenv;
-use holiday_api_rust::HolidayAPIClient;
+use holiday_api::HolidayAPIClient;
 use std::env;
 
 #[tokio::main]
