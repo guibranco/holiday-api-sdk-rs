@@ -1,23 +1,27 @@
 [package]
 name = "holiday_api_rust"
-version = "0.3.2"
+version = "1.0.0"
 authors = ["Guilherme Branco Stracini <guilherme@guilhermebranco.com.br>"]
-edition = "2018"
+edition = "2021"
 description = "The Holiday API client wrapper."
-repository = "https://github.com/guibranco/holiday-api-rust.git"
-homepage = "https://github.com/guibranco/holiday-api-rust"
+repository = "https://github.com/guibranco/holiday-api-sdk-rs.git"
+homepage = "http://guilherme.stracini.com.br/holiday-api-sdk-rs/"
 keywords = ["rest", "client", "holiday", "holiday-api"]
 categories = ["network-programming", "web-programming::http-client"]
 readme = "README.md"
 license = "MIT"
 
 [badges]
-appveyor = { repository = "guibranco/holiday-api-rust", branch = "main", service = "github" }
+appveyor = { repository = "guibranco/holiday-api-sdk-rs", branch = "main", service = "github" }
 
 [dependencies]
-reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tokio = { version = "1", features = ["full"] }
 url = "2"
 log = "0.4"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+dotenv = "0.15"
+prettytable = "0.10"
