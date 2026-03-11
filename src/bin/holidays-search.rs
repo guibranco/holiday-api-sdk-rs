@@ -22,7 +22,7 @@ async fn main() {
     }
 }
 
-fn print_holidays(holidays: Vec<holiday_api_rust::Holiday>) {
+fn print_holidays(holidays: Vec<holiday_api::Holiday>) {
     let mut table = Table::new();
     table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
     table.set_titles(row!["Name", "Date", "Country"]);
