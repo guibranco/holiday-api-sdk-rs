@@ -58,7 +58,7 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 
 # Usage
 
-Create a client with your HolidayAPI key and perform requests asynchronously.
+Create a client with your Holiday API key and perform requests asynchronously.
 
 ```rust
 use holiday_api_rust::HolidayAPIClient;
