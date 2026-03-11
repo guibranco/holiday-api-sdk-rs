@@ -10,54 +10,142 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/392b044637f43eb881ac/test_coverage)](https://codeclimate.com/github/guibranco/holiday-api-rust/test_coverage)
 [![CodeFactor](https://www.codefactor.io/repository/github/guibranco/holiday-api-rust/badge)](https://www.codefactor.io/repository/github/guibranco/holiday-api-rust)
 
-| Service      | Status |
-| -------      | :----: |
-| AppVeyor CI  | [![Build status](https://ci.appveyor.com/api/projects/status/4ksqycqm761c06jb/branch/main?svg=true)](https://ci.appveyor.com/project/guibranco/holiday-api-rust/branch/main) |
-| crates.io    | [![Crates.io](https://img.shields.io/crates/v/holiday-api-rust.svg)](https://crates.io/crates/holiday-api-rust) |
+| Service | Status |
+|--------|:------:|
+| crates.io | [![Crates.io](https://img.shields.io/crates/v/holiday-api-rust.svg)](https://crates.io/crates/holiday-api-rust) |
 
 Pure Rust bindings to the [Holiday API](https://holidayapi.com).
 
-## Dependencies and support
+---
 
-`holiday-api-rust` is intended to work on all tier 1 supported Rust systems:
+# Features
 
-- MacOSX
+- Retrieve holidays by **country and year**
+- List supported **countries**
+- List supported **languages**
+- Calculate the next **workday**
+- Calculate the number of **workdays between dates**
+
+---
+
+# Supported platforms
+
+`holiday_api_rust` works on all **Tier 1 Rust platforms**:
+
+- macOS
 - Linux
 - Windows
 
-## Minimum Compiler Version
+---
 
-Due to the use of certain features `holiday-api-rust` requires `rustc` version 1.18 or
-higher.
+# Minimum supported Rust version (MSRV)
 
-## Getting Started
+This crate currently targets **Rust 1.70+** (Rust 2021 edition).
 
-Add the following to your `Cargo.toml`
+---
+
+# Installation
+
+Add the crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-holiday_api_rust = "0.3.1"
-serde_json = "1.0"
-```
+holiday_api_rust = "0.3"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+````
 
-Then in your `lib.rs` or `main.rs` file add:
+---
+
+# Usage
+
+Create a client with your HolidayAPI key and perform requests asynchronously.
 
 ```rust
-extern crate holiday_api_rust;
+use holiday_api_rust::HolidayAPIClient;
 
-let client = HolidayAPIClient::new("HolidayAPI key here");
-match client.search_holidays("2019", "BR") {
-    Err(e) => eprintln!("{:?}", e),
-    Ok(holidays) => {
-        for holiday in holidays {
-            println!("Holiday: {} | Date: {} | Country: {}", holiday.name, holiday.date, holiday.country);
-        }
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+    let client = HolidayAPIClient::new("YOUR_API_KEY".to_string());
+
+    let holidays = client
+        .search_holidays("2025", "US")
+        .await?
+        .unwrap_or_default();
+
+    for holiday in holidays {
+        println!(
+            "Holiday: {} | Date: {} | Country: {}",
+            holiday.name,
+            holiday.date,
+            holiday.country
+        );
     }
+
+    Ok(())
 }
 ```
 
-## License
+---
 
-Licensed under
+# Example: list supported countries
 
-- MIT license ([LICENSE](https://github.com/guibranco/holiday-api-rust/blob/main/LICENSE) or [http://opensource.org/licenses/MIT](http://opensource.org/licenses/MIT))
+```rust
+use holiday_api_rust::HolidayAPIClient;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+    let client = HolidayAPIClient::new("YOUR_API_KEY".to_string());
+
+    let countries = client.search_countries().await?;
+
+    for country in countries {
+        println!("{} - {}", country.code, country.name);
+    }
+
+    Ok(())
+}
+```
+
+---
+
+# Example: get next workday
+
+```rust
+use holiday_api_rust::HolidayAPIClient;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+    let client = HolidayAPIClient::new("YOUR_API_KEY".to_string());
+
+    let workday = client
+        .workday("US", "2025-03-01", "5")
+        .await?;
+
+    println!("Next workday: {}", workday.date);
+
+    Ok(())
+}
+```
+
+---
+
+# HolidayAPI
+
+You can obtain an API key from:
+
+[https://holidayapi.com](https://holidayapi.com)
+
+Documentation:
+
+[https://holidayapi.com/docs](https://holidayapi.com/docs)
+
+---
+
+# License
+
+Licensed under the MIT license.
+
+See the [LICENSE](https://github.com/guibranco/holiday-api-rust/blob/main/LICENSE) file for details.
