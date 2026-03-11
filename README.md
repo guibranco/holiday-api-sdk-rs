@@ -3,7 +3,6 @@
 📆⚙️ [HolidayAPI](https://holidayapi.com/docs) client wrapper for Rust projects.
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/guibranco/holiday-api-sdk-rs/main)
-![Crates.io](https://img.shields.io/crates/d/holiday-api-sdk-rs)
 [![wakatime](https://wakatime.com/badge/github/guibranco/holiday-api-sdk-rs.svg)](https://wakatime.com/badge/github/guibranco/holiday-api-sdk-rs)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/392b044637f43eb881ac/maintainability)](https://codeclimate.com/github/guibranco/holiday-api-sdk-rs/maintainability)
