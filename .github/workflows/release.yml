@@ -13,22 +13,19 @@ jobs:
       semver: ${{ steps.gitversion.outputs.semVer }}
 
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout Repository
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v4
+      - name: 🔧 Install GitVersion
+        uses: gittools/actions/gitversion/setup@v4.4.2
         with:
-          versionSpec: "5.x"
+          versionSpec: "6.x"
 
-      - name: Determine version
+      - name: 🏷️ Determine Version Number
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v4
-        with:
-          useConfigFile: true
-          configFilePath: GitVersion.yml
+        uses: gittools/actions/gitversion/execute@v4.4.2
 
       - name: Display version
         run: echo "Version is ${{ steps.gitversion.outputs.semVer }}"
