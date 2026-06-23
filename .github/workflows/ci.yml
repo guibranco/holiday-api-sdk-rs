@@ -9,6 +9,7 @@ jobs:
   build-and-test:
     name: Build & Test (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
     strategy:
       fail-fast: false
       matrix:
